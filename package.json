@@ -1,0 +1,52 @@
+{
+  "name": "nuxt-ai-template",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AI-native Nuxt 4 starter optimized for Claude Code — conventions, skills, subagents, and a golden-example Expense Tracker demo.",
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "prepare": "husky",
+    "typecheck": "nuxt typecheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "lint-staged": {
+    "*.{js,ts,mjs,cjs,vue}": "eslint --fix"
+  },
+  "overrides": {
+    "@nuxt/schema": "^4.0.0",
+    "@nuxt/kit": "^4.0.0"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^3.0.0",
+    "@pinia/nuxt": "^0.11.0",
+    "nuxt": "^4.0.0",
+    "pinia": "^3.0.0",
+    "vue": "^3.5.0",
+    "vue-router": "^4.5.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@iconify-json/lucide": "^1.2.0",
+    "@nuxt/eslint": "^1.0.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "husky": "^9.1.0",
+    "lint-staged": "^15.2.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0",
+    "vue-tsc": "^2.2.0"
+  }
+}

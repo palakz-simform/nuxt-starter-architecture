@@ -1,0 +1,12 @@
+/* Tailwind v4 + Nuxt UI. Order matters: Tailwind first, then Nuxt UI. */
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+/* Design tokens (Tailwind v4 CSS-first). Define foundational color scales,
+ * fonts, and radii here; map them to SEMANTIC aliases in app/app.config.ts.
+ * Nuxt UI ships full color scales (50–950) out of the box, so most projects
+ * only override brand tokens here. */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --radius-md: 0.5rem;
+}

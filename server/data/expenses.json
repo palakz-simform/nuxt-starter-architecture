@@ -1,0 +1,40 @@
+[
+  {
+    "id": "6f2a1c4e-9b3d-4a7f-8c1e-2d5f6a7b8c90",
+    "title": "Groceries — weekly shop",
+    "amount": 82.4,
+    "category": "food",
+    "date": "2026-07-05",
+    "notes": "Supermarket run",
+    "createdAt": "2026-07-05T18:12:00.000Z",
+    "updatedAt": "2026-07-05T18:12:00.000Z"
+  },
+  {
+    "id": "1a2b3c4d-5e6f-4071-8293-a4b5c6d7e8f9",
+    "title": "Monthly transit pass",
+    "amount": 55,
+    "category": "transport",
+    "date": "2026-07-01",
+    "createdAt": "2026-07-01T08:00:00.000Z",
+    "updatedAt": "2026-07-01T08:00:00.000Z"
+  },
+  {
+    "id": "9c8b7a65-4d3e-42f1-90ab-cdef01234567",
+    "title": "Electricity bill",
+    "amount": 61.75,
+    "category": "utilities",
+    "date": "2026-07-03",
+    "notes": "June usage",
+    "createdAt": "2026-07-03T09:30:00.000Z",
+    "updatedAt": "2026-07-03T09:30:00.000Z"
+  },
+  {
+    "id": "0d1e2f3a-4b5c-4d6e-8f90-1a2b3c4d5e6f",
+    "title": "Cinema tickets",
+    "amount": 28,
+    "category": "entertainment",
+    "date": "2026-07-06",
+    "createdAt": "2026-07-06T20:45:00.000Z",
+    "updatedAt": "2026-07-06T20:45:00.000Z"
+  }
+]
