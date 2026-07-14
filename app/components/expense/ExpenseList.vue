@@ -19,7 +19,7 @@ const columns: TableColumn<Expense>[] = [
   { accessorKey: 'category', header: 'Category' },
   { accessorKey: 'date', header: 'Date' },
   { accessorKey: 'amount', header: 'Amount' },
-  { id: 'actions', header: '' },
+  { id: 'actions' },
 ]
 </script>
 
@@ -29,6 +29,10 @@ const columns: TableColumn<Expense>[] = [
     :columns="columns"
     :loading="loading"
   >
+    <template #actions-header>
+      <span class="sr-only">Actions</span>
+    </template>
+
     <template #category-cell="{ row }">
       <UBadge
         :label="formatCategory(row.original.category)"
