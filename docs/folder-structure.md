@@ -13,25 +13,32 @@ app/                     ← Nuxt 4 srcDir (the Vue app)
   components/<feature>/   feature components, grouped by domain
   composables/            useXxx() — data access & reusable logic (auto-imported)
   layouts/                app shells (default.vue)
+  middleware/             route middleware (defineNuxtRouteMiddleware; .global.ts = always-on)
   pages/                  file-based routes (auto-imported)
+  plugins/                app-init code / injected $helpers (.client/.server suffixes)
   stores/                 Pinia stores (auto-imported by @pinia/nuxt)
   utils/                  pure helpers (auto-imported)
 
 server/                  ← ROOT level (Nitro backend), NOT inside app/
   api/<feature>/          file-based API routes (index.get.ts, [id].put.ts, …)
+  middleware/             runs on every request; must NOT return a body
   repositories/           persistence boundary
   utils/                  server-only helpers (auto-imported in Nitro)
-  data/                   JSON storage files
+  data/                   JSON storage files (read-only seed; runtime writes to .data/)
 
 shared/                  ← ROOT level, imported by BOTH app and server
   types/                  auto-imported types
   schemas/                Zod schemas (import via #shared alias)
 
+modules/                 ← ROOT level, build-time Nuxt modules (advanced; rarely needed)
 public/                  static assets served as-is (ROOT level)
 docs/                    architecture memory (this folder)
 .claude/                 AI tooling: skills, agents, commands, settings, hooks
 tests/                   unit + server tests
 ```
+
+Middleware/plugins/modules have dedicated skills — see `create-middleware`,
+`create-plugin` (`.claude/skills/`).
 
 ## Nuxt 4 gotchas (do NOT get these wrong)
 

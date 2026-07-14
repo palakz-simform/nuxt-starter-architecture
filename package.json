@@ -5,7 +5,7 @@
   "type": "module",
   "description": "AI-native Nuxt 4 starter optimized for Claude Code — conventions, skills, subagents, and a golden-example Expense Tracker demo.",
   "engines": {
-    "node": ">=22",
+    "node": ">=24",
     "npm": ">=10"
   },
   "scripts": {
@@ -41,7 +41,7 @@
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.0",
     "@nuxt/eslint": "^1.0.0",
-    "@types/node": "^22.0.0",
+    "@types/node": "^24.0.0",
     "eslint": "^9.0.0",
     "husky": "^9.1.0",
     "lint-staged": "^15.2.0",

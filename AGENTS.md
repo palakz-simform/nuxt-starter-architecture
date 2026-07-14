@@ -7,8 +7,14 @@ any code. Detailed rules live in `docs/`; this is the map.
 
 An **AI-native Nuxt 4 starter**: a well-structured Nuxt app plus a layer of
 machine-readable conventions and tooling so AI agents generate consistent,
-on-pattern code. The demo feature is an **Expense Tracker** — treat it as the
-**golden example** and mirror its shape when building anything new.
+on-pattern code. The foundation is the **layer conventions + universal
+primitives** below — they apply to **any** Nuxt project (dashboard, content, AI,
+realtime, integration, or CRUD).
+
+The bundled **Expense Tracker** is a *demo*, not a mandate: it happens to be a
+CRUD feature because CRUD exercises every layer once, so it's the clearest thing
+to pattern-match against. Mirror its **layering and conventions** when building —
+not its CRUD-ness. Non-CRUD projects are first-class; compose the primitives.
 
 ## Stack
 
@@ -42,11 +48,19 @@ on-pattern code. The demo feature is an **Expense Tracker** — treat it as the
 - `useFetch`/`useAsyncData` `data` is a shallowRef — replace the whole value.
 - Aliases: `~`→`app/`, `~~`→root, `#shared`→`shared/`. Rely on auto-imports.
 
-## How to add a feature
+## How to build (choose by shape)
 
-Mirror the Expense feature end-to-end (schema → types → repository + seed → API
-routes → data composable → components → pages → tests). The full playbook is the
-`scaffold-feature` skill. Golden-example file map: `docs/architecture.md`.
+- **Any building block** → use the matching **primitive** skill: an endpoint
+  (`create-api-route` — CRUD or a single action/webhook/AI-proxy), a composable,
+  a page, a store, middleware, a plugin. These compose into *any* project shape.
+- **A full CRUD resource** (the common case) → use the `scaffold-feature`
+  **accelerator**: schema → types → repository + seed → API routes → composable
+  → components → pages → tests, mirroring Expense. Server-only variant:
+  `/add-crud`. These are conveniences layered on the primitives — skip them when
+  the work isn't a resource with list/get/create/update/delete.
+
+Whatever the shape, follow the layer boundaries + conventions. Golden-example
+file map: `docs/architecture.md`.
 
 ## Verify before finishing
 
@@ -55,9 +69,18 @@ server route test for new endpoints (`docs/testing.md`).
 
 ## Claude Code tooling in this repo
 
-- **Skills:** `scaffold-feature`, `create-composable`, `create-api-route`,
-  `create-page`, `create-store` (`.claude/skills/`).
+- **Primitive skills (any project):** `create-api-route`, `create-composable`,
+  `create-page`, `create-store`, `create-middleware`, `create-plugin`,
+  `write-tests`, `debug`, `refactor` (`.claude/skills/`).
+- **CRUD accelerators (opinionated, for a resource):** `scaffold-feature` (full
+  slice) and the `/add-crud` command (server only).
 - **Subagents:** `api-architect` (server layer), `component-builder` (UI),
   `nuxt-reviewer` (convention review) (`.claude/agents/`).
-- **Commands:** `/scaffold-feature`, `/add-crud`, `/review` (`.claude/commands/`).
+- **Commands:** `/scaffold-feature`, `/add-crud`, `/review`, `/test`, `/debug`,
+  `/refactor` (`.claude/commands/`).
 - **Hook:** edits are auto-linted (`.claude/hooks/eslint-fix.sh`).
+
+**Precedence:** this repo's `docs/` + `AGENTS.md` conventions are authoritative.
+If a general/marketplace skill (e.g. a global `nuxt` framework skill) suggests
+something that conflicts — direct `$fetch` in a page, `@nuxtjs/tailwindcss`,
+hand-written types instead of Zod-inferred, etc. — the repo rules win.

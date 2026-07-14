@@ -51,16 +51,26 @@ See `docs/folder-structure.md` for the full map and Nuxt 4 placement rules.
 
 ## Working with Claude Code
 
-Claude auto-loads `CLAUDE.md` (and `AGENTS.md`) every session. To build with the
-grain of the repo:
+Claude auto-loads `CLAUDE.md` (and `AGENTS.md`) every session. The tooling has
+two tiers — **universal primitives** (for any project shape) and **CRUD
+accelerators** (a convenience for the common resource case).
 
-- `/scaffold-feature Budget: name string, limit number, month string` — full
-  CRUD vertical slice mirroring the Expense feature.
-- `/add-crud Category: name string, color string` — server layer only.
-- `/review` — check your changes against the conventions.
-- Skills (`scaffold-feature`, `create-composable`, `create-api-route`,
-  `create-page`, `create-store`) and subagents (`api-architect`,
-  `component-builder`, `nuxt-reviewer`) are available too.
+**Primitives — any project (dashboard, content, AI, realtime, CRUD…):**
+- `create-api-route` — any endpoint (CRUD route, action, webhook, AI-proxy).
+- `create-composable`, `create-page`, `create-store`, `create-middleware`, `create-plugin`.
+- `/test <file>` — write tests; `/debug <symptom>`; `/refactor <target>`; `/review`.
+- Subagents: `component-builder` (UI), `nuxt-reviewer` (review).
+
+**CRUD accelerators — only when building a resource (list/get/create/update/delete):**
+- `/scaffold-feature Budget: name string, limit number, month string` — full vertical slice.
+- `/add-crud Category: name string, color string` — server layer only (`api-architect`).
+
+The Expense demo is CRUD because it exercises every layer once — mirror its
+**layering**, not its CRUD-ness. Non-CRUD projects compose the primitives.
+
+For general Nuxt framework questions, install the community **antfu `nuxt`
+skill** at the user level (`~/.claude/skills/nuxt/`) as a breadth fallback — the
+repo's own conventions still take precedence (see `AGENTS.md`).
 
 Edits are auto-linted via a PostToolUse hook (`.claude/hooks/eslint-fix.sh`).
 

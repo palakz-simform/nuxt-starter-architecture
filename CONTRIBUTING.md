@@ -7,7 +7,7 @@ Nuxt project to inherit this?*
 ## Setup
 
 ```bash
-npm install      # Node 22+ (see .nvmrc), npm 10+
+npm install      # Node 24+ (see .nvmrc), npm 10+
 npm run dev
 ```
 
