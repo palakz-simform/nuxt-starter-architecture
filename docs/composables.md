@@ -29,6 +29,7 @@ export function useExpenses() {
 
 - Type against the shared schema types (`Expense`, `CreateExpenseInput`).
 - `data` is a shallowRef — never mutate nested fields; let `refresh()` re-pull.
+  This also keeps SSR and client in sync — see `docs/ssr-hydration.md`.
 - One resource per composable file. A per-id fetch gets its own key
   (`key: 'expense:' + id`).
 - Golden example: `app/composables/useExpenses.ts`.

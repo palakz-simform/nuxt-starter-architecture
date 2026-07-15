@@ -33,6 +33,31 @@ const columns: TableColumn<Expense>[] = [
       <span class="sr-only">Actions</span>
     </template>
 
+    <!-- Loading takes precedence over the empty state: without a #loading slot,
+         UTable falls through to #empty while fetching and flashes "No expenses"
+         (see docs/conventions.md — pending → error → empty → loaded). -->
+    <template #loading>
+      <div class="text-muted flex items-center justify-center gap-2 py-6 text-sm">
+        <UIcon
+          name="i-lucide-loader-circle"
+          class="size-4 animate-spin"
+          aria-hidden="true"
+        />
+        <span>Loading expenses…</span>
+      </div>
+    </template>
+
+    <template #empty>
+      <div class="text-muted flex flex-col items-center gap-1 py-6 text-sm">
+        <UIcon
+          name="i-lucide-receipt"
+          class="size-5"
+          aria-hidden="true"
+        />
+        <span>No expenses to show.</span>
+      </div>
+    </template>
+
     <template #category-cell="{ row }">
       <UBadge
         :label="formatCategory(row.original.category)"

@@ -2,7 +2,8 @@
 
 Copy-paste prompts for recurring engineering tasks in this repo. They point
 Claude at the golden example so output stays on-pattern. Most of these also
-exist as slash commands (`/scaffold-feature`, `/add-crud`, `/review`) and skills.
+exist as slash commands (`/scaffold-feature`, `/add-crud`, `/review`, `/test`,
+`/debug`, `/refactor`) and skills.
 
 ## Scaffold a full CRUD feature
 
@@ -43,7 +44,51 @@ docs/state-management.md. Only client-side UI state — no server data.
 ```
 Build app/components/<feature>/<Name>.vue using Nuxt UI components
 (docs/design-system.md). Presentational: type props/emits, emit events instead
-of doing side effects, use semantic color classes. Match app/components/expense/*.
+of doing side effects, use semantic color classes, add aria-labels for icon-only
+buttons, and keep it SSR-safe (docs/ssr-hydration.md). Match app/components/expense/*.
+```
+
+## Add a page
+
+```
+Add a page at app/pages/<route>.vue following docs/folder-structure.md and the
+create-page skill: orchestration only (data via a composable, UI via Nuxt UI),
+render pending → error → empty → loaded states. Match app/pages/expenses/*.
+```
+
+## Add route / server middleware
+
+```
+Add <route|server> middleware following the create-middleware skill: route
+middleware in app/middleware (defineNuxtRouteMiddleware; `.global.ts` = always-on),
+or Nitro middleware in server/middleware (must not return a body). Explain which
+and why.
+```
+
+## Add a plugin
+
+```
+Add a Nuxt plugin in app/plugins following the create-plugin skill: use it only
+for app-init side effects or an injected $helper (with .client/.server suffix if
+env-specific). If a composable/util would do, prefer that instead.
+```
+
+## Write tests
+
+```
+Write tests following docs/testing.md: unit (tests/unit) for pure logic, a
+repository round-trip (tests/server) for data logic, a component test
+(tests/nuxt, mountSuspended) for UI with real logic, and an HTTP route test
+(tests/e2e) for new endpoints. (Or run /test.)
+```
+
+## Debug a bug
+
+```
+Debug <symptom> using the debug skill's workflow: reproduce, locate via the layer
+map (page → composable/store → API route → repository → json-db), make the
+minimal on-pattern fix, add a regression test, then verify
+(lint + typecheck + test, and a browser check for UI/hydration bugs). (Or run /debug.)
 ```
 
 ## Review my change

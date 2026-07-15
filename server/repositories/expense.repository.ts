@@ -36,14 +36,18 @@ async function initialData(): Promise<Expense[]> {
 }
 
 async function readAll(): Promise<Expense[]> {
-  return readJson<Expense[]>(dataFile(), await initialData())
+  // `initialData` is passed as a lazy factory: the seed file is read ONLY when
+  // the runtime data file doesn't exist yet, not on every operation.
+  return readJson<Expense[]>(dataFile(), initialData)
 }
 
 export const expenseRepository = {
-  /** List all expenses, newest first. */
+  /** List all expenses, newest first (createdAt breaks same-date ties). */
   async list(): Promise<Expense[]> {
     const all = await readAll()
-    return [...all].sort((a, b) => b.date.localeCompare(a.date))
+    return [...all].sort((a, b) =>
+      b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt),
+    )
   },
 
   /** Find one by id, or `null` if not found. */
@@ -61,14 +65,14 @@ export const expenseRepository = {
       createdAt: now,
       updatedAt: now,
     }
-    await updateJson<Expense[]>(dataFile(), await initialData(), all => [...all, expense])
+    await updateJson<Expense[]>(dataFile(), initialData, all => [...all, expense])
     return expense
   },
 
   /** Patch an existing expense; returns `null` if it does not exist. */
   async update(id: string, patch: UpdateExpenseInput): Promise<Expense | null> {
     let updated: Expense | null = null
-    await updateJson<Expense[]>(dataFile(), await initialData(), all =>
+    await updateJson<Expense[]>(dataFile(), initialData, all =>
       all.map((e) => {
         if (e.id !== id) return e
         updated = { ...e, ...patch, updatedAt: new Date().toISOString() }
@@ -81,7 +85,7 @@ export const expenseRepository = {
   /** Delete by id; returns `true` if something was removed. */
   async remove(id: string): Promise<boolean> {
     let removed = false
-    await updateJson<Expense[]>(dataFile(), await initialData(), (all) => {
+    await updateJson<Expense[]>(dataFile(), initialData, (all) => {
       const next = all.filter(e => e.id !== id)
       removed = next.length !== all.length
       return next

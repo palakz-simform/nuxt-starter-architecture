@@ -12,8 +12,8 @@ below); deep-dive docs are imported on demand.
 - Naming & coding standards: @docs/conventions.md
 
 Other docs (read when relevant): `docs/api-layer.md`, `docs/composables.md`,
-`docs/state-management.md`, `docs/design-system.md`, `docs/testing.md`,
-`docs/prompts.md`.
+`docs/state-management.md`, `docs/design-system.md`, `docs/ssr-hydration.md`,
+`docs/testing.md`, `docs/prompts.md`.
 
 ## The golden example
 

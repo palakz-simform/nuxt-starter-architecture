@@ -32,8 +32,28 @@
 
 - **Server:** throw `createError({ statusCode, statusMessage, data })`. Use 400
   for validation, 404 for missing resources. Put field errors in `data`.
-- **Client:** wrap mutations in `try/catch`; surface success/failure with
-  `useToast()`. Show `error`/`pending` states from composables in the UI.
+- **Client (mutations):** wrap in `try/catch`; surface success/failure with
+  `useToast()`.
+- **Client (reads):** render every state a composable exposes, in this order:
+  `pending` → `error` (a `UAlert color="error"`) → empty → loaded. Never leave the
+  `error` ref unhandled — a failed fetch must not render as a silent empty screen.
+  Golden examples: `app/pages/expenses/[id].vue` (all four states) and the list +
+  dashboard pages. Empty states are explicit too (`ExpenseList`'s `#empty` slot,
+  `ExpenseSummary`'s "No expenses yet.").
+
+## Accessibility
+
+The UI must be usable without sight or a mouse. This is demonstrated in
+`app/components/expense/ExpenseList.vue`.
+
+- **Icon-only buttons need an `aria-label`** (e.g. the edit/delete `UButton`s) —
+  the icon alone gives a screen reader nothing to announce.
+- **Every form control gets a visible label** via `<UFormField label="…">` tied
+  to the field `name` (see `ExpenseForm.vue`).
+- **Don't ship empty/blank headers or labels.** A column or control that has no
+  visible text still needs an accessible name — use a visually-hidden
+  `<span class="sr-only">` (see the `#actions-header` slot) rather than an empty
+  string, which also avoids a hydration pitfall (`docs/ssr-hydration.md`).
 
 ## Validation
 

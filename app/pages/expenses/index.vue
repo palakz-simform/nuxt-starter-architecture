@@ -3,7 +3,7 @@ import type { Expense } from '#shared/schemas/expense'
 import { EXPENSE_CATEGORIES } from '#shared/schemas/expense'
 
 // List page: server data via composable, UI filter/sort via Pinia store.
-const { expenses, pending, remove } = useExpenses()
+const { expenses, pending, error, remove } = useExpenses()
 const filter = useExpenseFilterStore()
 const toast = useToast()
 
@@ -91,7 +91,16 @@ async function performDelete() {
       />
     </div>
 
+    <UAlert
+      v-if="error"
+      color="error"
+      variant="subtle"
+      icon="i-lucide-alert-triangle"
+      title="Couldn't load expenses"
+      description="Something went wrong fetching your expenses. Please try again."
+    />
     <ExpenseList
+      v-else
       :expenses="visible"
       :loading="pending"
       @delete="pendingDelete = $event"

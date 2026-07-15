@@ -18,6 +18,19 @@ import { dirname } from 'node:path'
 // Auto-imported in Nitro; kept as a normal export for testability.
 const locks = new Map<string, Promise<unknown>>()
 
+/**
+ * A fallback value, or a lazy factory for one. The factory is invoked ONLY when
+ * the file is missing, so callers can pass an expensive default (e.g. reading a
+ * seed file) without paying for it on every read of an already-existing file.
+ */
+type Fallback<T> = T | (() => T | Promise<T>)
+
+async function resolveFallback<T>(fallback: Fallback<T>): Promise<T> {
+  return typeof fallback === 'function'
+    ? await (fallback as () => T | Promise<T>)()
+    : fallback
+}
+
 /** Serialize an async operation against a key (here: a file path). */
 async function withLock<T>(key: string, fn: () => Promise<T>): Promise<T> {
   const prev = locks.get(key) ?? Promise.resolve()
@@ -34,14 +47,17 @@ async function withLock<T>(key: string, fn: () => Promise<T>): Promise<T> {
   }
 }
 
-/** Read a JSON file, returning `fallback` if it does not exist yet. */
-export async function readJson<T>(path: string, fallback: T): Promise<T> {
+/**
+ * Read a JSON file, returning `fallback` if it does not exist yet. `fallback`
+ * may be a lazy factory — it is only evaluated when the file is missing.
+ */
+export async function readJson<T>(path: string, fallback: Fallback<T>): Promise<T> {
   try {
     const raw = await readFile(path, 'utf8')
     return JSON.parse(raw) as T
   }
   catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return fallback
+    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return resolveFallback(fallback)
     throw err
   }
 }
@@ -60,7 +76,7 @@ export async function writeJson<T>(path: string, data: T): Promise<void> {
  */
 export async function updateJson<T>(
   path: string,
-  fallback: T,
+  fallback: Fallback<T>,
   mutate: (current: T) => T,
 ): Promise<T> {
   return withLock(path, async () => {

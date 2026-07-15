@@ -32,9 +32,22 @@ export const createExpenseSchema = z.object({
   title: z.string().trim().min(1, 'Title is required').max(120),
   amount: z.number().positive('Amount must be greater than 0'),
   category: expenseCategorySchema,
-  // ISO date string (YYYY-MM-DD). Kept as a string for JSON-friendliness.
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD'),
-  notes: z.string().trim().max(500).optional(),
+  // ISO date string (YYYY-MM-DD), kept as a string for JSON-friendliness.
+  // `.date()` enforces a *real* calendar date, so impossible values like
+  // `2026-13-40` or `2026-02-31` are rejected (a bare regex would accept them).
+  date: z.string().date('Date must be a valid YYYY-MM-DD date'),
+  // Optional free text. An empty/whitespace-only string is normalized to
+  // `undefined` so a cleared field is omitted rather than persisted as `""`.
+  // NOTE: `CreateExpenseInput` is `z.infer` (the *output* type). Today the input
+  // and output shapes match, so it doubles as the client-send type. If a future
+  // transform changes a field's type (not just narrows empty→undefined), derive
+  // the wire type from `z.input<typeof createExpenseSchema>` instead.
+  notes: z
+    .string()
+    .trim()
+    .max(500)
+    .optional()
+    .transform(value => (value ? value : undefined)),
 })
 
 /** All fields optional — used for PATCH/PUT-style partial updates. */

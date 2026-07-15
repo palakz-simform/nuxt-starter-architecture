@@ -22,11 +22,21 @@ const props = defineProps<{
 
 const emit = defineEmits<{ submit: [payload: CreateExpenseInput] }>()
 
+// SSR-safe default date. `new Date()` is non-deterministic: computed inline it
+// runs once on the server (server clock/UTC) and again on the client (browser
+// clock), so near a midnight boundary the two renders disagree and Vue reports a
+// hydration mismatch. `useState` computes the value once on the server and reuses
+// the serialized payload on the client, so both renders agree. General rule: any
+// non-deterministic value (`new Date()`, `Date.now()`, `Math.random()`) that is
+// rendered during SSR must be shared via `useState` or deferred to the client.
+// See docs/ssr-hydration.md.
+const today = useState('expense-form:today', () => new Date().toISOString().slice(0, 10))
+
 const state = reactive<Partial<CreateExpenseInput>>({
   title: props.initial?.title,
   amount: props.initial?.amount,
   category: props.initial?.category,
-  date: props.initial?.date ?? new Date().toISOString().slice(0, 10),
+  date: props.initial?.date ?? today.value,
   notes: props.initial?.notes,
 })
 

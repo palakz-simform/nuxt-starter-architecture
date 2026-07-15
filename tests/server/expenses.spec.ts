@@ -60,4 +60,23 @@ describe('createExpenseSchema', () => {
     })
     expect(result.success).toBe(false)
   })
+
+  it('rejects impossible calendar dates that a bare regex would accept', async () => {
+    const { createExpenseSchema } = await import('../../shared/schemas/expense')
+    const base = { title: 'X', amount: 1, category: 'food' as const }
+    expect(createExpenseSchema.safeParse({ ...base, date: '2026-13-40' }).success).toBe(false)
+    expect(createExpenseSchema.safeParse({ ...base, date: '2026-02-31' }).success).toBe(false)
+    expect(createExpenseSchema.safeParse({ ...base, date: '2026-07-14' }).success).toBe(true)
+  })
+
+  it('normalizes empty/whitespace notes to undefined instead of persisting ""', async () => {
+    const { createExpenseSchema } = await import('../../shared/schemas/expense')
+    const base = { title: 'X', amount: 1, category: 'food' as const, date: '2026-07-14' }
+
+    const emptyNotes = createExpenseSchema.parse({ ...base, notes: '   ' })
+    expect(emptyNotes.notes).toBeUndefined()
+
+    const realNotes = createExpenseSchema.parse({ ...base, notes: '  lunch  ' })
+    expect(realNotes.notes).toBe('lunch')
+  })
 })

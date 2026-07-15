@@ -12,7 +12,7 @@ catch drift from the repo's documented patterns — not to rewrite code.
 
 - `docs/conventions.md`, `docs/architecture.md`, `docs/folder-structure.md`,
   `docs/api-layer.md`, `docs/composables.md`, `docs/state-management.md`,
-  `docs/design-system.md`.
+  `docs/design-system.md`, `docs/ssr-hydration.md`.
 - The golden example: the Expense feature (`shared/schemas/expense.ts`,
   `server/api/expenses/*`, `server/repositories/expense.repository.ts`,
   `app/composables/useExpenses.ts`, `app/components/expense/*`, `app/pages/expenses/*`).
@@ -34,6 +34,14 @@ catch drift from the repo's documented patterns — not to rewrite code.
    shallowRef-safe data usage; auto-imports not manually imported.
 7. **Design system** — Nuxt UI components + semantic color classes (no raw
    `text-gray-*`); `<script setup lang="ts">`; typed props/emits.
+8. **SSR / hydration safety** — no non-deterministic values (`new Date()`,
+   `Date.now()`, `Math.random()`, `crypto.randomUUID()`) rendered during SSR or
+   seeding rendered reactive state (must use `useState` or `onMounted`); no
+   empty-string content props/headers that render differently server vs. client;
+   no nested mutation of a `useFetch`/`useAsyncData` shallowRef. See
+   `docs/ssr-hydration.md`.
+9. **Accessibility** — icon-only buttons have an `aria-label`; form controls have
+   a `UFormField label`; no blank/empty accessible names (use `sr-only`, not `''`).
 
 ## Output
 

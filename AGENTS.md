@@ -36,6 +36,9 @@ not its CRUD-ness. Non-CRUD projects are first-class; compose the primitives.
 5. **Nuxt UI + semantic classes.** Use `U*` components and semantic color classes
    (`text-muted`, `bg-default`, `text-primary`). See `docs/design-system.md`.
 6. **Follow the conventions** in `docs/conventions.md` (naming, TS, error handling).
+7. **SSR/hydration-safe rendering.** Never render non-deterministic values
+   (`new Date()`, `Date.now()`, `Math.random()`) during SSR — share them via
+   `useState` or defer to the client. See `docs/ssr-hydration.md`.
 
 ## Nuxt 4 correctness (common AI mistakes — avoid)
 
@@ -46,6 +49,9 @@ not its CRUD-ness. Non-CRUD projects are first-class; compose the primitives.
   comes from Nuxt UI (`@theme` tokens in `main.css`, semantic colors in
   `app/app.config.ts`).
 - `useFetch`/`useAsyncData` `data` is a shallowRef — replace the whole value.
+- Don't render non-deterministic values (`new Date()`, `Math.random()`) during
+  SSR, and avoid empty-string content props that render differently server vs.
+  client — both cause hydration mismatches. See `docs/ssr-hydration.md`.
 - Aliases: `~`→`app/`, `~~`→root, `#shared`→`shared/`. Rely on auto-imports.
 
 ## How to build (choose by shape)
