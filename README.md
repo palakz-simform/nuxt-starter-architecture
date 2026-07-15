@@ -95,9 +95,3 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution bar.
 - **Pre-commit** (husky + lint-staged) auto-runs `eslint --fix` on staged files.
 - **Claude PostToolUse hook** auto-lints AI edits.
 - Node/npm versions pinned via `.nvmrc` + `engines`.
-
-## Extending (documented, not built in v1)
-
-Swap JSON persistence for Drizzle+SQLite (reimplement the repository only), add a
-Claude-powered feature via `@anthropic-ai/sdk` + a server route, add Playwright
-e2e, or wire CI to run `npm run lint && npm run typecheck && npm test`.

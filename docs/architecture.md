@@ -60,7 +60,9 @@ layer above. When building anything new, mirror it:
 | Pages      | `app/pages/expenses/*.vue`, `app/pages/index.vue` |
 | Tests      | `tests/unit/*`, `tests/server/*` |
 
-## Non-goals (v1)
+## Scope
 
-No auth, no external DB, no deployment config. JSON persistence is intentional;
-the repository layer makes a DB swap a single-file change.
+This is a starter template, so it deliberately ships no auth, no external DB, and
+no deployment config. JSON persistence is intentional; the repository layer keeps
+storage behind one seam, so a project built from this template swaps it without
+touching any other layer.

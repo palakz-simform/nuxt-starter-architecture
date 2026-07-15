@@ -82,9 +82,7 @@ it('gives the icon-only actions column an accessible header', async () => {
 
 These guard *structural* regressions (a missing accessible header, a broken empty
 state). They cannot detect a hydration **mismatch** itself — that needs a real
-browser (see [ssr-hydration.md](./ssr-hydration.md)). A future Playwright e2e
-stage (`@nuxt/test-utils/e2e` + `createPage`) could assert no hydration warning;
-it's not installed yet.
+browser (see [ssr-hydration.md](./ssr-hydration.md)).
 
 ### 4. API route HTTP tests (`tests/e2e/`)
 
