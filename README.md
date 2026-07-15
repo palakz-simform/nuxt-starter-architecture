@@ -78,9 +78,15 @@ Edits are auto-linted via a PostToolUse hook (`.claude/hooks/eslint-fix.sh`).
 
 Clone/copy, then either keep the Expense feature as a live reference or strip it
 once your own features exist — but keep `AGENTS.md`, `CLAUDE.md`, `docs/`, and
-`.claude/`, the reusable accelerator. Step-by-step (what to delete, what to keep,
-governance): **[docs/using-as-template.md](docs/using-as-template.md)**. See
-[CONTRIBUTING.md](CONTRIBUTING.md) for the contribution bar.
+`.claude/`, the reusable accelerator.
+
+**Fast path — one command:** run `/reset-template <app name> [+ first feature]`
+right after cloning. It strips the Expense demo, fixes the couplings, scaffolds
+your first feature as the new golden example, repoints the docs, and then removes
+itself. (Prefer doing it by hand? The step-by-step delete/keep/governance guide
+is **[docs/using-as-template.md](docs/using-as-template.md)**.)
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution bar.
 
 ## Quality gates
 
